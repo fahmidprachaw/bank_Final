@@ -68,6 +68,7 @@ class RegularUser(User):
     def __init__(self, email, password):
         super().__init__(email, password)
         self.balance = 0
+        self.loan = 0
 
     def deposit(self, amount):
         self.balance += amount
@@ -91,11 +92,11 @@ class RegularUser(User):
     def check_balance(self):
         return self.balance
 
-    def take_loan(self):
+    def take_loan(self, amount):
         if bank.loan_feature:
-            loan_amount = self.balance * 2
-            self.balance += loan_amount
-            self.loan += loan_amount
+            # loan_amount = self.balance * 2
+            self.balance += amount
+            self.loan += amount
             return True
         else:
             return False
@@ -238,7 +239,8 @@ while True:
                         print("Current balance:", user.check_balance())
 
                     elif user_choice == "5":
-                        success = user.take_loan()
+                        amount = float(input("Enter an amount: "))
+                        success = user.take_loan(amount)
                         if success:
                             print("Loan successfully taken. Current balance:", user.balance)
                         else:
